@@ -150,6 +150,12 @@ namespace Ets.OAuthServer
             return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
         }
 
+        public override Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
+        {
+            //TODO:重写登录逻辑
+            //TODO:DAPPER,MOBILE+VERIFY
+        }
+
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
