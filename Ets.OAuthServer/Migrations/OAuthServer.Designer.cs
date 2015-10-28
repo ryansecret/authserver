@@ -13,7 +13,7 @@ namespace Ets.OAuthServer.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201510280620194_OAuthServer"; }
+            get { return "201510280711070_OAuthServer"; }
         }
         
         string IMigrationMetadata.Source
