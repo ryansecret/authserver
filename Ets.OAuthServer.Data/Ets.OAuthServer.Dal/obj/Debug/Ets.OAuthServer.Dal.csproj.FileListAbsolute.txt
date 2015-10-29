@@ -1,4 +1,0 @@
-D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Dal\bin\Debug\Ets.OAuthServer.Dal.dll
-D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Dal\bin\Debug\Ets.OAuthServer.Dal.pdb
-D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Dal\obj\Debug\Ets.OAuthServer.Dal.dll
-D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Dal\obj\Debug\Ets.OAuthServer.Dal.pdb
