@@ -1,1 +1,3 @@
-﻿
+﻿添加接口后，需要在RegisterConfig中注册实现
+
+错误日志已经自动记录，需要主动调用的话参见 LogExtenstion
