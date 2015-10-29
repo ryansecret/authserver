@@ -27,23 +27,31 @@ namespace Ets.OAuthServer
             IOwinContext context)
         {
             
-
+            //更换Dapper方式
             var manager = new ApplicationUserManager(new DapperUserStore(context.Get<ApplicationDbContext>()));
 
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
+                RequireUniqueEmail = false
             };
             // Configure validation logic for passwords
+            //manager.PasswordValidator = new PasswordValidator
+            //{
+            //    RequiredLength = 6,
+            //    RequireNonLetterOrDigit = true,
+            //    RequireDigit = true,
+            //    RequireLowercase = true,
+            //    RequireUppercase = true,
+            //};
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
@@ -69,6 +77,11 @@ namespace Ets.OAuthServer
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+
+        public override void RegisterTwoFactorProvider(string twoFactorProvider, IUserTokenProvider<ApplicationUser, string> provider)
+        {
+            base.RegisterTwoFactorProvider(twoFactorProvider, provider);
         }
     }
 
@@ -143,6 +156,7 @@ namespace Ets.OAuthServer
                 var result = userManager.AddToRole(user.Id, role.Name);
             }
         }
+
     }
 
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
@@ -167,5 +181,7 @@ namespace Ets.OAuthServer
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
+        
     }
 }
