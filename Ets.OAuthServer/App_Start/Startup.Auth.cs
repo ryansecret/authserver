@@ -1,11 +1,18 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+﻿using Ets.OAuthServer.Utility;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Ets.OAuthServer;
+using Microsoft.Owin.Security.Infrastructure;
+using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
-
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 namespace Ets.OAuthServer
 {
     public partial class Startup
@@ -56,8 +63,8 @@ namespace Ets.OAuthServer
             // Setup Authorization Server
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
-                AuthorizeEndpointPath = new PathString(Paths.AuthorizePath),
-                TokenEndpointPath = new PathString(Paths.TokenPath),
+                AuthorizeEndpointPath = new PathString(OAuthContants.Paths.AuthorizePath),
+                TokenEndpointPath = new PathString(OAuthContants.Paths.TokenPath),
                 ApplicationCanDisplayErrors = true,
 #if DEBUG
                 AllowInsecureHttp = true,
@@ -90,32 +97,28 @@ namespace Ets.OAuthServer
 
         private Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
         {
-            if (context.ClientId == Clients.Client1.Id)
+            //todo:
+            if (context.ClientId == OAuthContants.Clients.Client1.Id)
             {
-                context.Validated(Clients.Client1.RedirectUrl);
+                context.Validated(OAuthContants.Clients.Client1.RedirectUrl);
             }
-            else if (context.ClientId == Clients.Client2.Id)
-            {
-                context.Validated(Clients.Client2.RedirectUrl);
-            }
+          
             return Task.FromResult(0);
         }
 
         private Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
+            //todo:
             string clientId;
             string clientSecret;
             if (context.TryGetBasicCredentials(out clientId, out clientSecret) ||
                 context.TryGetFormCredentials(out clientId, out clientSecret))
             {
-                if (clientId == Clients.Client1.Id && clientSecret == Clients.Client1.Secret)
+                if (clientId == OAuthContants.Clients.Client1.Id && clientSecret == OAuthContants.Clients.Client1.Secret)
                 {
                     context.Validated();
                 }
-                else if (clientId == Clients.Client2.Id && clientSecret == Clients.Client2.Secret)
-                {
-                    context.Validated();
-                }
+               
             }
             return Task.FromResult(0);
         }
