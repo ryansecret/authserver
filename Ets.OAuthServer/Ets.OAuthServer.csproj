@@ -262,7 +262,6 @@
     <Compile Include="Controllers\OAuthBaseController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
-    <Compile Include="Dapper\AUser.cs" />
     <Compile Include="Dapper\DbManager.cs" />
     <Compile Include="Dapper\DapperUserStore.cs" />
     <Compile Include="Global.asax.cs">

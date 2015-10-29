@@ -13,6 +13,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Ets.OAuthServer.Dapper
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class DapperUserStore : UserStore<ApplicationUser>
     {
         public DapperUserStore(DbContext dbContext):base(dbContext){}
