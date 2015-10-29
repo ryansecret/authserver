@@ -155,7 +155,7 @@ namespace Ets.OAuthServer
         {
             //TODO:重写登录逻辑
             //TODO:DAPPER,MOBILE+VERIFY
-            base.PasswordSignInAsync()
+            
             return null;
         }
 

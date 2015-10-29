@@ -11,7 +11,7 @@ namespace Ets.OAuthServer
         }
         public ActionResult Index()
         {
-          //  return new ContentResult() { Content = _testBll.Test() };
+           //return new ContentResult() { Content = _testBll.Test() };
             return View();
         }
 

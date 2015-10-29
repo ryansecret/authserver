@@ -19,14 +19,14 @@ namespace Ets.OAuthServer
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
-        protected void Application_EndRequest(object sender, EventArgs e)
-        {
+        //protected void Application_EndRequest(object sender, EventArgs e)
+        //{
 
-            //dispose registered resources
-            //we do not register AutofacRequestLifetimeHttpModule as IHttpModule 
-            //because it disposes resources before this Application_EndRequest method is called
-            //and in this case the code in Application_EndRequest of Global.asax will throw an exception
-            AutofacRequestLifetimeHttpModule.ContextEndRequest(sender, e);
-        }
+        //    //dispose registered resources
+        //    //we do not register AutofacRequestLifetimeHttpModule as IHttpModule 
+        //    //because it disposes resources before this Application_EndRequest method is called
+        //    //and in this case the code in Application_EndRequest of Global.asax will throw an exception
+        //    AutofacRequestLifetimeHttpModule.ContextEndRequest(sender, e);
+        //}
     }
 }
