@@ -129,7 +129,8 @@ namespace Ets.OAuthServer.Core.Infrastructure.DependencyManagement
         {
             try
             {
-                return AutofacRequestLifetimeHttpModule.GetLifetimeScope(Container, null);
+              //  return AutofacRequestLifetimeHttpModule.GetLifetimeScope(Container, null);
+                return AtuofacRequestLifetimeOwin.GetLifetimeScope(Container, null);
             }
             catch
             {

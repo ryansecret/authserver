@@ -99,6 +99,7 @@ namespace Ets.OAuthServer
     {
         public Task SendAsync(IdentityMessage message)
         {
+            
             // Plug in your sms service here to send a text message.
             return Task.FromResult(0);
         }

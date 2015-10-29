@@ -8,6 +8,7 @@ namespace Ets.OAuthServer
         {
             EngineInit();
             ConfigureAuth(app);
+          
         }
     }
 }
