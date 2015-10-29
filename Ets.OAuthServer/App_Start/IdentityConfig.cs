@@ -95,6 +95,7 @@ namespace Ets.OAuthServer
     {
         public Task SendAsync(IdentityMessage message)
         {
+            
             // Plug in your sms service here to send a text message.
             return Task.FromResult(0);
         }
@@ -154,6 +155,7 @@ namespace Ets.OAuthServer
         {
             //TODO:重写登录逻辑
             //TODO:DAPPER,MOBILE+VERIFY
+            base.PasswordSignInAsync()
             return null;
         }
 
