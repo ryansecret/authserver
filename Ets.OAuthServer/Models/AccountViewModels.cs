@@ -45,10 +45,15 @@ namespace Ets.OAuthServer
 
     public class LoginViewModel
     {
+        //[Required]
+        //[Display(Name = "Email")]
+        //[EmailAddress]
+        //public string Email { get; set; }
+
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "PhoneNumber")]
+        [Phone]
+        public string PhoneNumber { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

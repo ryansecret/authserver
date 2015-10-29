@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
+using Ets.OAuthServer.Dapper;
 
 namespace Ets.OAuthServer
 {
@@ -25,7 +26,10 @@ namespace Ets.OAuthServer
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
             IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            
+
+            var manager = new ApplicationUserManager(new DapperUserStore(context.Get<ApplicationDbContext>()));
+
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -154,7 +158,8 @@ namespace Ets.OAuthServer
         {
             //TODO:重写登录逻辑
             //TODO:DAPPER,MOBILE+VERIFY
-            return null;
+            //return null;
+            return base.PasswordSignInAsync(userName, password, isPersistent, shouldLockout);
         }
 
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
