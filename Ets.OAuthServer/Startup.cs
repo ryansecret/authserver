@@ -6,6 +6,7 @@ namespace Ets.OAuthServer
     {
         public void Configuration(IAppBuilder app)
         {
+            EngineInit();
             ConfigureAuth(app);
         }
     }

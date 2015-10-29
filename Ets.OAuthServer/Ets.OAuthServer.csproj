@@ -42,6 +42,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\Ets.OAuthServer.Core\bin\Debug\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\Ets.OAuthServer.Core\bin\Debug\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -49,6 +55,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -176,6 +185,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="说明.txt" />
+    <Content Include="Log4Net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -237,8 +248,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RegisterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\Startup.EngineInit.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -258,6 +271,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utility\LogExtenstion.cs" />
+    <Compile Include="Utility\WebErrorHandlerAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -272,6 +287,24 @@
     <EmbeddedResource Include="Migrations\OAuthServer.resx">
       <DependentUpon>OAuthServer.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ets.OAuthServer.Core\Ets.OAuthServer.Core.csproj">
+      <Project>{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}</Project>
+      <Name>Ets.OAuthServer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ets.OAuthServer.Data\Ets.OAuthServer.Bll\Ets.OAuthServer.Bll.csproj">
+      <Project>{dc300fe4-5f96-4a11-a7e8-607a1d5a96bd}</Project>
+      <Name>Ets.OAuthServer.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ets.OAuthServer.Data\Ets.OAuthServer.Dal\Ets.OAuthServer.Dal.csproj">
+      <Project>{9c29f717-2a22-4b7e-bfca-571c549f8129}</Project>
+      <Name>Ets.OAuthServer.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ets.OAuthServer.Data\Ets.OAuthServer.Model\Ets.OAuthServer.Model.csproj">
+      <Project>{c6d7ae0b-2ad8-4c54-a3f1-f92aa084e2f4}</Project>
+      <Name>Ets.OAuthServer.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

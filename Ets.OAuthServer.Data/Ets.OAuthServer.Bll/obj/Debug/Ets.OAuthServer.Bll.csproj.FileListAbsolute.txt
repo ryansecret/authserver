@@ -1,0 +1,7 @@
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Bll\bin\Debug\Ets.OAuthServer.Bll.dll
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Bll\bin\Debug\Ets.OAuthServer.Bll.pdb
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Bll\bin\Debug\Ets.OAuthServer.Dal.dll
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Bll\bin\Debug\Ets.OAuthServer.Dal.pdb
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Bll\obj\Debug\Ets.OAuthServer.Bll.csprojResolveAssemblyReference.cache
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Bll\obj\Debug\Ets.OAuthServer.Bll.dll
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Bll\obj\Debug\Ets.OAuthServer.Bll.pdb

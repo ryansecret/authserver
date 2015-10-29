@@ -154,6 +154,7 @@ namespace Ets.OAuthServer
         {
             //TODO:重写登录逻辑
             //TODO:DAPPER,MOBILE+VERIFY
+            return null;
         }
 
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)

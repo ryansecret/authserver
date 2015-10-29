@@ -1,0 +1,4 @@
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Model\bin\Debug\Ets.OAuthServer.Model.dll
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Model\bin\Debug\Ets.OAuthServer.Model.pdb
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Model\obj\Debug\Ets.OAuthServer.Model.dll
+D:\MyWork\Code\Ets.OAuth\Ets.OAuthServer.Data\Ets.OAuthServer.Model\obj\Debug\Ets.OAuthServer.Model.pdb

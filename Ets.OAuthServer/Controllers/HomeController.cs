@@ -1,11 +1,17 @@
 ﻿using System.Web.Mvc;
-
+using Ets.OAuthServer.Bll.IBll;
 namespace Ets.OAuthServer
 {
     public class HomeController : Controller
     {
+        public ITestBll _testBll;
+        public HomeController(ITestBll testBll)
+        {
+            _testBll = testBll;
+        }
         public ActionResult Index()
         {
+            return new ContentResult() { Content = _testBll.Test() };
             return View();
         }
 

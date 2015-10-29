@@ -1,9 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ets.OAuthServer", "Ets.OAuthServer\Ets.OAuthServer.csproj", "{D40A963C-B485-46C5-8D4F-58C85F724F46}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ets.OAuthServer.Data", "Ets.OAuthServer.Data", "{BF2EE391-BAAC-404C-91F1-55ED2BA1D628}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ets.OAuthServer.Model", "Ets.OAuthServer.Data\Ets.OAuthServer.Model\Ets.OAuthServer.Model.csproj", "{C6D7AE0B-2AD8-4C54-A3F1-F92AA084E2F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ets.OAuthServer.Dal", "Ets.OAuthServer.Data\Ets.OAuthServer.Dal\Ets.OAuthServer.Dal.csproj", "{9C29F717-2A22-4B7E-BFCA-571C549F8129}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ets.OAuthServer.Bll", "Ets.OAuthServer.Data\Ets.OAuthServer.Bll\Ets.OAuthServer.Bll.csproj", "{DC300FE4-5F96-4A11-A7E8-607A1D5A96BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ets.OAuthServer.Core", "Ets.OAuthServer.Core\Ets.OAuthServer.Core.csproj", "{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +25,29 @@ Global
 		{D40A963C-B485-46C5-8D4F-58C85F724F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D40A963C-B485-46C5-8D4F-58C85F724F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D40A963C-B485-46C5-8D4F-58C85F724F46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6D7AE0B-2AD8-4C54-A3F1-F92AA084E2F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6D7AE0B-2AD8-4C54-A3F1-F92AA084E2F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6D7AE0B-2AD8-4C54-A3F1-F92AA084E2F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6D7AE0B-2AD8-4C54-A3F1-F92AA084E2F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C29F717-2A22-4B7E-BFCA-571C549F8129}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C29F717-2A22-4B7E-BFCA-571C549F8129}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C29F717-2A22-4B7E-BFCA-571C549F8129}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C29F717-2A22-4B7E-BFCA-571C549F8129}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC300FE4-5F96-4A11-A7E8-607A1D5A96BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC300FE4-5F96-4A11-A7E8-607A1D5A96BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC300FE4-5F96-4A11-A7E8-607A1D5A96BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC300FE4-5F96-4A11-A7E8-607A1D5A96BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C6D7AE0B-2AD8-4C54-A3F1-F92AA084E2F4} = {BF2EE391-BAAC-404C-91F1-55ED2BA1D628}
+		{9C29F717-2A22-4B7E-BFCA-571C549F8129} = {BF2EE391-BAAC-404C-91F1-55ED2BA1D628}
+		{DC300FE4-5F96-4A11-A7E8-607A1D5A96BD} = {BF2EE391-BAAC-404C-91F1-55ED2BA1D628}
 	EndGlobalSection
 EndGlobal
