@@ -33,6 +33,9 @@
     <Reference Include="Dapper">
       <HintPath>..\..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="Easy.Domain">
+      <HintPath>..\..\packages\Easy.Domain.1.0.0.0\lib\net40\Easy.Domain.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -47,8 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dal\ApplicationDAl.cs" />
+    <Compile Include="Dal\ApplicationDal.cs" />
     <Compile Include="Dal\ApplicationDalSql.cs" />
+    <Compile Include="Dal\IdSetHelper.cs" />
     <Compile Include="Dal\TestDal.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="IDal\IApplicationDal.cs" />

@@ -20,7 +20,7 @@ namespace Ets.OAuthServer.Dal.Dal
                 string sql = ApplicationDalSql.InsertSql();
 
                 int id = conn.ExecuteScalar<int>(sql, application);
-                application.Id = id;
+                IdSetHelper.SetId<int>(application, id);
             }
         }
         /// <summary>

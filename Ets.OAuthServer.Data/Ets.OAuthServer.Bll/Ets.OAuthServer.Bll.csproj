@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Easy.Domain">
+      <HintPath>..\..\packages\Easy.Domain.1.0.0.0\lib\net40\Easy.Domain.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,15 +42,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bll\ApplicationBll.cs" />
+    <Compile Include="IBll\IApplicationBill.cs" />
     <Compile Include="IBll\ITestBll.cs" />
     <Compile Include="Bll\TestBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ets.OAuthServer.Dal\Ets.OAuthServer.Dal.csproj">
       <Project>{9C29F717-2A22-4B7E-BFCA-571C549F8129}</Project>
       <Name>Ets.OAuthServer.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ets.OAuthServer.Model\Ets.OAuthServer.Model.csproj">
+      <Project>{c6d7ae0b-2ad8-4c54-a3f1-f92aa084e2f4}</Project>
+      <Name>Ets.OAuthServer.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
