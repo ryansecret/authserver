@@ -8,7 +8,7 @@ namespace Ets.OAuthServer.Bll.IBll
 {
     public interface IApplicationBill
     {
-        bool Add(Model.Application application);
+        Model.Application Add(string name, string callback);
         bool Update(Model.Application application);
         Model.Application FindById(int id);
         Model.Application FindByKey(string key);

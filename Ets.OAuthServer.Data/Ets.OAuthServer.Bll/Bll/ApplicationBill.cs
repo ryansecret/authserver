@@ -1,4 +1,5 @@
 ﻿using Ets.OAuthServer.Bll.IBll;
+using Ets.OAuthServer.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,26 @@ namespace Ets.OAuthServer.Bll.Bll
         /// <summary>
         /// 添加
         /// </summary>
-        /// <param name="application"></param>
+        /// <param name="name"></param>
+        /// <param name="callback"></param>
         /// <returns></returns>
-        public bool Add(Model.Application application)
+        public Model.Application Add(string name, string callback)
         {
+            var application = new Application()
+            {
+                Name = name,
+                CallbackUrl = callback,
+                AppKey = Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
+                AppSecret = Guid.NewGuid().ToString().Replace("-", "").ToLower()
+            };
+            
+
             if (application.Validate())
             {
                 dal.Add(application);
-                return true;
+                
             }
-            return false;
+            return application;
         }
         /// <summary>
         /// 更新

@@ -11,7 +11,7 @@ namespace Ets.OAuthServer.Dal
 {
     class Database
     {
-        static readonly string CONN_STRING = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
+        static readonly string CONN_STRING = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
         public static IDbConnection GetConnection()
         {
