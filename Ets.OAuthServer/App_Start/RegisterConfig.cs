@@ -20,8 +20,8 @@ namespace Ets.OAuthServer.App_Start
         {
             builder.RegisterControllers(typeFinder.GetAssemblies().ToArray());
 
-            builder.RegisterType<TestDal>().AsImplementedInterfaces();
-            builder.RegisterType<TestBll>().AsImplementedInterfaces();
+            builder.RegisterType<AuthInfoDal>().AsImplementedInterfaces();
+            builder.RegisterType<AuthInfoBll>().AsImplementedInterfaces();
 
             builder.RegisterType<ApplicationDal>().AsImplementedInterfaces();
             builder.RegisterType<ApplicationBill>().AsImplementedInterfaces();

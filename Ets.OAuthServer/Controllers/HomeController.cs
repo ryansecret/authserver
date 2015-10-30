@@ -4,8 +4,8 @@ namespace Ets.OAuthServer
 {
     public class HomeController : Controller
     {
-        public ITestBll _testBll;
-        public HomeController(ITestBll testBll)
+        public IAuthInfoBll _testBll;
+        public HomeController(IAuthInfoBll testBll)
         {
             _testBll = testBll;
         }

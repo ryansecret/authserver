@@ -54,10 +54,12 @@
   <ItemGroup>
     <Compile Include="Dal\ApplicationDal.cs" />
     <Compile Include="Dal\ApplicationDalSql.cs" />
+    <Compile Include="Dal\AuthInfoDal.cs" />
     <Compile Include="Dal\IdSetHelper.cs" />
     <Compile Include="Dal\TestDal.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="IDal\IApplicationDal.cs" />
+    <Compile Include="IDal\IAuthInfoDal.cs" />
     <Compile Include="IDal\ITest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -46,8 +46,8 @@
   <ItemGroup>
     <Compile Include="Bll\ApplicationBill.cs" />
     <Compile Include="IBll\IApplicationBill.cs" />
-    <Compile Include="IBll\ITestBll.cs" />
-    <Compile Include="Bll\TestBll.cs" />
+    <Compile Include="IBll\IAuthInfoBll.cs" />
+    <Compile Include="Bll\AuthInfoBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
