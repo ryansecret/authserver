@@ -62,7 +62,7 @@ namespace Ets.OAuthServer.Model
             this.IsNullOrWhiteSpace(m => m.AppKey, ApplicationBrokenRuleMessage.AppKeyIsEmpty);
             this.IsNullOrWhiteSpace(m => m.AppKey, ApplicationBrokenRuleMessage.AppSecretIsEmpty);
             this.IsNullOrWhiteSpace(m => m.CallbackUrl, ApplicationBrokenRuleMessage.CallBackUrlIsEmpty);
-            this.AddRule((Application application) =>
+            this.AddRule(m => m.CallbackUrl, (Application application) =>
             {
                 string url = application.CallbackUrl.ToUpper();
 
@@ -88,8 +88,8 @@ namespace Ets.OAuthServer.Model
             this.Messages.Add(NameIsEmpty, "名称不能为空");
             this.Messages.Add(AppKeyIsEmpty, "APPKey不能为空");
             this.Messages.Add(AppSecretIsEmpty, "AppSecret不能为空");
-            this.Messages.Add(CallBackUrlIsEmpty, "回调地地不能为空");
-            this.Messages.Add(CallBackUrlIsEmpty,"回调地址必须以http或https开头");
+            this.Messages.Add(CallBackUrlIsEmpty, "回调地址不能为空");
+            this.Messages.Add(CallBackUrlError, "回调地址必须以http或https开头");
         }
     }
 

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Ets.OAuthServer.Model.Application>
+@using Ets.OAuthServer.Model
+@{
+    Application application = ViewBag.AddApplication;               
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>应用管理</title>
+</head>
+<body>
+    <div style="height:20px"></div>
+    <div>
+        <form method="post" action="@Url.Action("index","application")">
+            <p>名称：<input type="text" name="Name" value="@application.Name" /><span style="color:red">
+                @application.GetBrokenRules().Where(m => m.PropertyName == "Name").Select(m => m.Description).FirstOrDefault()
+            </span></p>
+            <p>回调地址：<input type="text" name="CallbackUrl" style="width:300px"  value="@application.CallbackUrl"/><span style="color:red">@application.GetBrokenRules().Where(m => m.PropertyName == "CallbackUrl").Select(m => m.Description).FirstOrDefault()
+</span></p>
+            <p><input type="submit" value="保存" />
+                @if (application.GetBrokenRules().Count == 0 && this.Request.HttpMethod=="POST")
+                {
+                    <span style="color:red">保存成功</span>
+                }
+            </p>
+        </form>
+    </div>
+    <div>
+        <table style="width:100%; border-collapse:collapse" border="1">
+            <thead>
+                <tr>
+                    <td>名称</td>
+                    <td>APPKEY</td>
+                    <td>APPSECRET</td>
+                    <td>回调地址</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.AppKey</td>
+                        <td>@item.AppSecret</td>
+                        <td>@item.CallbackUrl</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+<script src="~/Scripts/application.js"></script>
+</body>
+</html>
