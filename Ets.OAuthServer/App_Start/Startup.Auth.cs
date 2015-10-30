@@ -11,6 +11,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Ets.OAuthServer.Bll.IBll;
+using Ets.OAuthServer.Core.Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 namespace Ets.OAuthServer
@@ -43,7 +45,7 @@ namespace Ets.OAuthServer
                 }
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
+            
             //todo:加入三方
 
             ConfigureAuthServer(app);
@@ -89,18 +91,20 @@ namespace Ets.OAuthServer
 
         }
 
-        private Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
+        private async Task ValidateClientRedirectUri(OAuthValidateClientRedirectUriContext context)
         {
-            //todo:
-            if (context.ClientId == OAuthContants.Clients.Client1.Id)
-            {
-                context.Validated(OAuthContants.Clients.Client1.RedirectUrl);
-            }
-          
-            return Task.FromResult(0);
+           
+            var auth = EngineContext.Current.ContainerManager.Resolve<IAuthInfoBll>();
+            var redirectUrl = await auth.GetReturnUrl(context.ClientId);
+            context.Validated(redirectUrl);
+            //if (context.ClientId == OAuthContants.Clients.Client1.Id)
+            //{
+            //    context.Validated(OAuthContants.Clients.Client1.RedirectUrl);
+            //}
+            
         }
 
-        private Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        private async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             //todo:
             string clientId;
@@ -108,13 +112,14 @@ namespace Ets.OAuthServer
             if (context.TryGetBasicCredentials(out clientId, out clientSecret) ||
                 context.TryGetFormCredentials(out clientId, out clientSecret))
             {
-                if (clientId == OAuthContants.Clients.Client1.Id && clientSecret == OAuthContants.Clients.Client1.Secret)
+                var auth = EngineContext.Current.ContainerManager.Resolve<IAuthInfoBll>();
+                if (await auth.IsClientExist(clientId,clientSecret))
                 {
                     context.Validated();
                 }
                
             }
-            return Task.FromResult(0);
+            
         }
 
         private Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)

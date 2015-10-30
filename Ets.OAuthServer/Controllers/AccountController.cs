@@ -47,6 +47,15 @@ namespace Ets.OAuthServer
             return View();
         }
 
+        //
+        // GET: /Account/CodeLogin
+        [AllowAnonymous]
+        public ActionResult CodeLogin(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
         private ApplicationSignInManager _signInManager;
 
         public ApplicationSignInManager SignInManager
@@ -75,6 +84,70 @@ namespace Ets.OAuthServer
             // To enable password failures to trigger lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(model);
+            }
+        }
+
+        //
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CodeLogin(LoginViewModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await UserManager.FindByNameAsync(model.PhoneNumber);
+            if (user == null) //验证码注册
+            {
+                var applicationUser = new ApplicationUser { UserName = model.PhoneNumber };
+                var result = await UserManager.CreateAsync(applicationUser, model.Password);
+                if (result.Succeeded)
+                {                
+                    return View("DisplayEmail");
+                }
+
+                return View("Error");
+            }
+
+
+            //var user = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
+            //var userId1 = user.Identity.GetUserId();
+            //var code = await UserManager.GenerateUserTokenAsync("ryan", userId1);
+
+
+
+            //var verifyResult = await UserManager.VerifyUserTokenAsync(userId1, "Login", model.Password);
+            //if (verifyResult)
+            //{
+            //    return Content("haha");
+            //}
+
+
+            //var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+            //ViewBag.Link = callbackUrl;
+            //return View("ForgotPasswordConfirmation");
+
+
+            //// This doen't count login failures towards lockout only two factor authentication
+            //// To enable password failures to trigger lockout, change to shouldLockout: true
+            var result1 = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
+            switch (result1)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
@@ -283,25 +356,33 @@ namespace Ets.OAuthServer
         public async Task<ActionResult> SendCode(string returnUrl)
         {
             var user = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
+            var userId1=  user.Identity.GetUserId();       
+            var code=await UserManager.GenerateUserTokenAsync("Login", userId1);
 
-            var userId1=  user.Identity.GetUserId();
-        
-            var code=await UserManager.GenerateUserTokenAsync("ryan", userId1);
 
-            var verifyResult=await UserManager.VerifyUserTokenAsync(userId1, "ryan", code);
-            if (verifyResult)
+
+            return new JsonResult
             {
-                return Content("haha");
-            }
+                Data = new
+                {
+                    State = true
+                }
+            };
 
-            var userId = await SignInManager.GetVerifiedUserIdAsync();
-            if (userId == null)
-            {
-                return View("Error");
-            }
-            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl });
+            //var verifyResult=await UserManager.VerifyUserTokenAsync(userId1, "Login", code);
+            //if (verifyResult)
+            //{
+            //    return Content("haha");
+            //}
+
+            //var userId = await SignInManager.GetVerifiedUserIdAsync();
+            //if (userId == null)
+            //{
+            //    return View("Error");
+            //}
+            //var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+            //var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+            //return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl });
         }
 
         //

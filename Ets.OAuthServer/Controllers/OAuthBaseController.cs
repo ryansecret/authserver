@@ -12,7 +12,7 @@ namespace Ets.OAuthServer.Controllers
     public class OAuthController : Controller
     { 
         public ActionResult Authorize()
-        { 
+        {
             var authentication = HttpContext.GetOwinContext().Authentication;
             var ticket = authentication.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie).Result;
             var identity = ticket != null ? ticket.Identity : null;

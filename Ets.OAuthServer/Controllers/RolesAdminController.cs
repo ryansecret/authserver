@@ -1,13 +1,14 @@
 ﻿using Ets.OAuthServer;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNet.Identity.EntityFramework;
+ 
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using AspnetIdentity.Dapper;
 
 namespace Ets.OAuthServer
 {
@@ -98,6 +99,7 @@ namespace Ets.OAuthServer
         {
             if (ModelState.IsValid)
             {
+                 
                 var role = new IdentityRole(roleViewModel.Name);
                 var roleresult = await RoleManager.CreateAsync(role);
                 if (!roleresult.Succeeded)

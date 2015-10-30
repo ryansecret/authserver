@@ -1,10 +1,10 @@
 ﻿using Ets.OAuthServer;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNet.Identity.EntityFramework;
+ 
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+ 
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -56,7 +56,7 @@ namespace Ets.OAuthServer
         // GET: /Users/
         public async Task<ActionResult> Index()
         {
-            return View(await UserManager.Users.ToListAsync());
+            return View(UserManager.Users);
         }
 
         //
@@ -79,7 +79,7 @@ namespace Ets.OAuthServer
         public async Task<ActionResult> Create()
         {
             //Get the list of Roles
-            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+            ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
             return View();
         }
 
@@ -105,7 +105,7 @@ namespace Ets.OAuthServer
                         if (!result.Succeeded)
                         {
                             ModelState.AddModelError("", result.Errors.First());
-                            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+                            ViewBag.RoleId = new SelectList( RoleManager.Roles, "Name", "Name");
                             return View();
                         }
                     }
