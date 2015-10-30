@@ -43,7 +43,7 @@ namespace Ets.OAuthServer
                 }
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
+            
             //todo:加入三方
 
             ConfigureAuthServer(app);

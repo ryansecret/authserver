@@ -9,7 +9,7 @@ using System.Web;
 using Dapper;
 using Ets.OAuthServer.Dal.Dal;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+ 
 
 namespace Ets.OAuthServer.Dapper
 {
