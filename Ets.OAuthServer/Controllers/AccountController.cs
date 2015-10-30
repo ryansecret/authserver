@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-
+using Microsoft.AspNet.Identity;
 namespace Ets.OAuthServer
 {
     [Authorize]
@@ -69,7 +69,8 @@ namespace Ets.OAuthServer
             {
                 return View(model);
             }
-
+            model.PhoneNumber = "admin@example.com";
+            model.Password = "Admin@123456";
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
@@ -281,6 +282,18 @@ namespace Ets.OAuthServer
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl)
         {
+            var user = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
+
+            var userId1=  user.Identity.GetUserId();
+        
+            var code=await UserManager.GenerateUserTokenAsync("ryan", userId1);
+
+            var verifyResult=await UserManager.VerifyUserTokenAsync(userId1, "ryan", code);
+            if (verifyResult)
+            {
+                return Content("haha");
+            }
+
             var userId = await SignInManager.GetVerifiedUserIdAsync();
             if (userId == null)
             {
@@ -302,7 +315,7 @@ namespace Ets.OAuthServer
             {
                 return View();
             }
-
+           
             // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
