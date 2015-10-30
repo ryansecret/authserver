@@ -15,6 +15,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ets.OAuthServer.Bll", "Ets.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ets.OAuthServer.Core", "Ets.OAuthServer.Core\Ets.OAuthServer.Core.csproj", "{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ets.OAuthServer.Dal.Test", "Ets.OAuth.Dal.Test\Ets.OAuthServer.Dal.Test.csproj", "{05273E4C-7B61-46F8-AF4E-2ED391929B20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspnetIdentity.Dapper", "Ets.ThrirdPart\Lu.AspnetIdentity.Dapper\AspnetIdentity.Dapper.csproj", "{452A6D78-A5B2-4D58-9382-48F3E33CAB36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dapper.Extensions", "Ets.ThrirdPart\Lu.Dapper.Extensions\Dapper.Extensions.csproj", "{23255E76-D762-4668-9D3F-AAE922A985D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EC20B889-41A3-46B0-ADB0-33611194AF3B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ets.OAuthServerCore", "Ets.OAuthServerCore", "{2A4B4859-C2EE-46EA-AECB-AC9630DB2368}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +56,18 @@ Global
 		{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B6D226B-A936-4EE7-9CC7-E6A949DB0607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05273E4C-7B61-46F8-AF4E-2ED391929B20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05273E4C-7B61-46F8-AF4E-2ED391929B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05273E4C-7B61-46F8-AF4E-2ED391929B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05273E4C-7B61-46F8-AF4E-2ED391929B20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{452A6D78-A5B2-4D58-9382-48F3E33CAB36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{452A6D78-A5B2-4D58-9382-48F3E33CAB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{452A6D78-A5B2-4D58-9382-48F3E33CAB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{452A6D78-A5B2-4D58-9382-48F3E33CAB36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23255E76-D762-4668-9D3F-AAE922A985D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23255E76-D762-4668-9D3F-AAE922A985D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23255E76-D762-4668-9D3F-AAE922A985D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23255E76-D762-4668-9D3F-AAE922A985D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +76,9 @@ Global
 		{C6D7AE0B-2AD8-4C54-A3F1-F92AA084E2F4} = {BF2EE391-BAAC-404C-91F1-55ED2BA1D628}
 		{9C29F717-2A22-4B7E-BFCA-571C549F8129} = {BF2EE391-BAAC-404C-91F1-55ED2BA1D628}
 		{DC300FE4-5F96-4A11-A7E8-607A1D5A96BD} = {BF2EE391-BAAC-404C-91F1-55ED2BA1D628}
+		{9B6D226B-A936-4EE7-9CC7-E6A949DB0607} = {2A4B4859-C2EE-46EA-AECB-AC9630DB2368}
+		{05273E4C-7B61-46F8-AF4E-2ED391929B20} = {BF2EE391-BAAC-404C-91F1-55ED2BA1D628}
+		{452A6D78-A5B2-4D58-9382-48F3E33CAB36} = {2A4B4859-C2EE-46EA-AECB-AC9630DB2368}
+		{23255E76-D762-4668-9D3F-AAE922A985D8} = {2A4B4859-C2EE-46EA-AECB-AC9630DB2368}
 	EndGlobalSection
 EndGlobal

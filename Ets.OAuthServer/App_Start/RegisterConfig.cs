@@ -22,6 +22,9 @@ namespace Ets.OAuthServer.App_Start
 
             builder.RegisterType<TestDal>().AsImplementedInterfaces();
             builder.RegisterType<TestBll>().AsImplementedInterfaces();
+
+            builder.RegisterType<ApplicationDal>().AsImplementedInterfaces();
+            builder.RegisterType<ApplicationBill>().AsImplementedInterfaces();
         }
     }
 }
