@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using Ets.OAuthServer;
+using Ets.OAuthServer.Utility;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -351,38 +353,28 @@ namespace Ets.OAuthServer
         }
 
         //
-        // GET: /Account/SendCode
+        // GET: /Account/SendCode     
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl)
         {
             var user = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
-            var userId1=  user.Identity.GetUserId();       
-            var code=await UserManager.GenerateUserTokenAsync("Login", userId1);
+            var userId1 = user.Identity.GetUserId();
+            var code = await UserManager.GenerateUserTokenAsync("ryan", userId1);
 
-
-
-            return new JsonResult
+            var verifyResult = await UserManager.VerifyUserTokenAsync(userId1, "ryan", code);
+            if (verifyResult)
             {
-                Data = new
-                {
-                    State = true
-                }
-            };
+                return Content("haha");
+            }
 
-            //var verifyResult=await UserManager.VerifyUserTokenAsync(userId1, "Login", code);
-            //if (verifyResult)
-            //{
-            //    return Content("haha");
-            //}
-
-            //var userId = await SignInManager.GetVerifiedUserIdAsync();
-            //if (userId == null)
-            //{
-            //    return View("Error");
-            //}
-            //var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
-            //var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-            //return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl });
+            var userId = await SignInManager.GetVerifiedUserIdAsync();
+            if (userId == null)
+            {
+                return View("Error");
+            }
+            var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
+            var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+            return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl });
         }
 
         //
@@ -403,6 +395,113 @@ namespace Ets.OAuthServer
                 return View("Error");
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl });
+        }
+
+        /// <summary>
+        /// Sends the code.
+        /// </summary>      
+        /// <param name="PhoneNumber">The phone number.</param>
+        /// <param name="type">The type.(1:登录；2：重置)</param>
+        /// <param name="isVoice">if set to <c>true</c> [is voice].</param>
+        /// <returns></returns>
+        /// 创建者：林燕平
+        /// 创建日期：10/30/2015 4:53 PM
+        /// 修改者：
+        /// 修改时间：
+        /// ----------------------------------------------------------------------------------------
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendVerificateCode(string phoneNumber, int type, bool isVoice)
+        {
+            Regex expressionstr = new Regex(@"^[-]?\d+[.]?\d*$");
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        State = false,
+                        Message = "手机号码错误"
+                    }
+                };
+            }
+            if (phoneNumber.Trim().Length != 11 || !expressionstr.IsMatch(phoneNumber))
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        State = false,
+                        Message = "手机号码错误"
+                    }
+                };
+            }
+
+            var user = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
+            var userId1 = user.Identity.GetUserId();
+            var tmpcode = await UserManager.GenerateUserTokenAsync("Login", userId1);
+
+            //Random RNum = new Random();
+            //string tmpcode = RNum.Next(10000, 99999) + RNum.Next(0, 9).ToString();
+            string sendtmpcode = tmpcode;
+            if (isVoice)
+            {
+                string SendCodestr = "";
+                for (int i = 0; i < tmpcode.Length; i++)
+                {
+                    SendCodestr += tmpcode[i] + ",";
+                }
+                sendtmpcode = SendCodestr.TrimEnd(',');
+            }
+            string content;
+            switch (type)
+            {
+                case 1:
+                    content = "您的验证码：" + sendtmpcode + "，请在5分钟内填写。此验证码只用于登录，如非本人操作，请不要理会。";
+                    break;
+                case 2:
+                    content = "您的验证码：" + sendtmpcode + "，请在5分钟内填写。此验证码只用于重置密码，如非本人操作，请不要理会。";
+                    break;
+                default:
+                    content = "您的验证码：" + sendtmpcode + "，请在5分钟内填写。此验证码只用于登录，如非本人操作，请不要理会。";
+                    break;
+            }
+            SmsHelper etaoshiSMS = new SmsHelper();
+            string mess = string.Empty;
+            if (isVoice)
+            {
+                mess = etaoshiSMS.SendVoiceSmsLogSpeed(phoneNumber, content);
+            }
+            else
+            {
+                mess = etaoshiSMS.SendSmsSaveLogSpeed(phoneNumber, content, "EtsLogin", 0);
+            }
+
+            if (mess != "发送成功")
+            {
+                //Session[CommonKey.VerificateCode] = tmpcode;
+                //Session[CommonKey.VerificateMobile] = mobile;
+                //记录已发送次数
+                Session.Timeout = 5;
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        State = false,
+                        Message = "发送验证码失败"
+                    }
+                };
+            }
+
+            return new JsonResult
+            {
+                Data = new
+                {
+                    State = true,
+                    Message = "发送验证码成功"
+                }
+            };         
         }
 
         //

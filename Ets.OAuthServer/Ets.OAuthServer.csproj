@@ -120,6 +120,7 @@
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -184,6 +185,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\application.js" />
+    <Content Include="Scripts\BussinessJS\CodeLogin.js" />
     <Content Include="说明.txt" />
     <Content Include="Log4Net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -269,6 +271,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utility\LogExtenstion.cs" />
     <Compile Include="Utility\OAuthContants.cs" />
+    <Compile Include="Utility\SmsHelper.cs" />
     <Compile Include="Utility\WebErrorHandlerAttribute.cs" />
   </ItemGroup>
   <ItemGroup>

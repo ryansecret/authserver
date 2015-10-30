@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">                 
                     <div class="col-md-10">
-                        <input type="button" value="发送验证码" id="sendAuthCode"  disabled="disabled">
+                        <input type="button" value="发送验证码" id="sendAuthCode" >
                     </div>
                 </div>
                 <div class="form-group">
@@ -61,57 +61,10 @@
     </div>
 </div>
 
-@Html.Hidden("hidSendAuthCodeUrl", Url.Action("SendCode", "Account"))
+@*@Html.Hidden("hidSendAuthCodeUrl", Url.Action("SendCode", "Account",new {ReturnUrl = ViewBag.ReturnUrl,type=1,isVoice=false }))*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/BussinessJS/CodeLogin")
 }
-<script>
-    //「发送验证码」单击事件
-    $('#sendAuthCode').on('click', function (e) {
-        var userName = $('#PhoneNumber').val().trim();
-        if ($(this).attr("disabled") != "disabled") {
-            //验证           
-            if (userName == '') {
-                alert("请输入您的手机号");
-                return false;
-            }
-            //if (!checkTelephone(userName)) {
-            //    PopUp('请输入正确的手机号');
-            //    e.stopPropagation();
-            //}           
-        }
-        
-        sendAuthCode(userName);
-    });
 
-    ///*验证码倒计时*/
-    //$("#sendAuthCode").yzm(59, function () {
-    //    var telephone = $("#userName").val();
-    //    $.phone_verification(telephone, function () {
-    //        sendAuthCode(telephone);
-    //    });
-    //    showSBDYZM(telephone);
-    //}, function () {
-    //    $(".sbdyzm").hide();
-    //});
-
-    function sendAuthCode(telephone) {
-        $.ajaxAntiForgery({
-            url: $("#hidSendAuthCodeUrl").val(),
-            global: false,
-            type: 'POST',
-            dataType: "json",
-            data: {
-                telephone: telephone
-            },
-            success: function (result) {
-                if (result.State) {
-                    return;
-                }
-
-                alert("短信发送失败", result.Message);
-            }
-        });
-    }
-</script>
