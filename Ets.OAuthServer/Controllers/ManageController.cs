@@ -241,6 +241,8 @@ namespace Ets.OAuthServer
                 return View(model);
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            
+
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -253,6 +255,44 @@ namespace Ets.OAuthServer
             AddErrors(result);
             return View(model);
         }
+
+        //
+        // GET: /Manage/ChangePassword
+        public ActionResult CodeChangePassword()
+        {
+            ViewBag.UserName = User.Identity.Name;
+            return View();
+        }
+
+
+        //
+        // POST: /Account/Manage
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CodeChangePassword(CodeChangePasswordViewModel model) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user= await UserManager.FindByNameAsync(model.PhoneNumber);
+
+            //验证码验证
+            var code = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);
+            if (!code.Equals(model.Code))
+            {
+                return View(model);
+            }
+
+            //获取密码hash值
+            PasswordHasher passwordHasher=new PasswordHasher();
+            var passWord= passwordHasher.HashPassword(model.NewPassword);
+            user.PasswordHash = passWord;
+
+            var result= UserManager.UpdateAsync(user);
+            return View(model);
+        } 
+
 
         //
         // GET: /Manage/SetPassword

@@ -49,7 +49,7 @@
     //修改密码 
     var sendUpdateAuthCode = function (telephone) {
         $.ajaxAntiForgery({
-            url: '/Account/SendVerificateCode2',
+            url: '/Account/SendVerificateChangeCode',
             global: false,
             type: 'POST',
             dataType: "json",

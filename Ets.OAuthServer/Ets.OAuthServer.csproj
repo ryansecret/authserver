@@ -286,6 +286,7 @@
     <Content Include="Views\Account\CodeLogin.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Manage\CodeChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

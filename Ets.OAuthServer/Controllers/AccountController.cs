@@ -82,10 +82,6 @@ namespace Ets.OAuthServer
             {
                 return View(model);
             }
-            //model.PhoneNumber = "admin@example.com";
-            //model.Password = "Admin@123456";
-            // This doen't count login failures towards lockout only two factor authentication
-            // To enable password failures to trigger lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -184,15 +180,10 @@ namespace Ets.OAuthServer
         {
             if (ModelState.IsValid)
             {
-                //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var user = new ApplicationUser { UserName = model.PhoneNumber };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    //ViewBag.Link = callbackUrl;
                     return View("DisplayEmail");
                 }
                 AddErrors(result);
@@ -364,8 +355,9 @@ namespace Ets.OAuthServer
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendVerificateCode2(string phoneNumber)
+        public async Task<ActionResult> SendVerificateChangeCode(string phoneNumber)
         {
+            phoneNumber = "13148372114";
             if (phoneNumber.IsNullOrWhiteSpace()||!CommonUtility.IsMobilephone(phoneNumber))
             {
                 return new JsonResult
@@ -377,12 +369,21 @@ namespace Ets.OAuthServer
                     }
                 };
             }
-            string tempCode = string.Empty;
-            var user = new ApplicationUser();
-            Session[ControllersCommon.ConstSessionUserIdForCode] = user.Id;
-            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);         
-            
-            var content = "您的验证码：" + tempCode + "，请在5分钟内填写。此验证码只用于修改密码，如非本人操作，请不要理会。";
+          
+
+            var user = await UserManager.FindByNameAsync(phoneNumber);
+            if (user == null) //验证码注册
+            {
+                var applicationUser = new ApplicationUser { PhoneNumber = phoneNumber, UserName = phoneNumber };
+                var result = await UserManager.CreateAsync(applicationUser);
+                if (result.Succeeded)
+                {
+                    user = applicationUser;
+                }
+            }
+
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);
+            var content = "您的验证码：" + tmpcode + "，请在5分钟内填写。此验证码只用于修改密码，如非本人操作，请不要理会。";
 
             SmsHelper etaoshiSMS = new SmsHelper();
             string mess = string.Empty;
