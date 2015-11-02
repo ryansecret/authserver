@@ -114,28 +114,13 @@ namespace Ets.OAuthServer
                 return View(model);
             }
 
-            var user = await UserManager.FindByNameAsync(model.PhoneNumber);
-            if (user == null) //验证码注册
-            {
-                var applicationUser = new ApplicationUser {UserName = model.PhoneNumber};
-                var result = await UserManager.CreateAsync(applicationUser, model.Password);
-                if (result.Succeeded)
-                {
-                    return View("DisplayEmail");
-                }
-
-                return View("Error");
-            }
-
-            var userId = Session[ControllersCommon.ConstSessionUserIdForCode] == null
-                             ? string.Empty
-                             : Session[ControllersCommon.ConstSessionUserIdForCode].ToString();
+            var user = await UserManager.FindByNameAsync(model.PhoneNumber);          
             var verifyResult = await UserManager.UserTokenProvider.ValidateAsync("Login", model.Password, UserManager, user);         
-            if (verifyResult)
+            if (verifyResult)//登录成功
             {
-                Session[ControllersCommon.ConstSessionUserIdForCode] =null;                
+                return View("Login"); 
             }
-            return View("~/Home/Index.cshtml");
+            return View("Login");
     }
 
         //
@@ -453,13 +438,19 @@ namespace Ets.OAuthServer
                     }
                 };
             }
-           
-            var user = new ApplicationUser();
-            Session[ControllersCommon.ConstSessionUserIdForCode] = user.Id;
-            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);          
 
-            //Random RNum = new Random();
-            //string tmpcode = RNum.Next(10000, 99999) + RNum.Next(0, 9).ToString();
+            var user = await UserManager.FindByNameAsync(phoneNumber);
+            if (user == null) //验证码注册
+            {
+                var applicationUser = new ApplicationUser { PhoneNumber = phoneNumber, UserName = phoneNumber };
+                var result = await UserManager.CreateAsync(applicationUser);
+                if (result.Succeeded)
+                {
+                    user = applicationUser;
+                }               
+            }
+               
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);          
             string sendtmpcode = tmpcode;
             if (isVoice)
             {
