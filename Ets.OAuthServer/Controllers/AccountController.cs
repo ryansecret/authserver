@@ -80,8 +80,8 @@ namespace Ets.OAuthServer
             {
                 return View(model);
             }
-            model.PhoneNumber = "admin@example.com";
-            model.Password = "Admin@123456";
+            //model.PhoneNumber = "admin@example.com";
+            //model.Password = "Admin@123456";
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
@@ -438,11 +438,12 @@ namespace Ets.OAuthServer
                 };
             }
 
-            Random RNum = new Random();
-            var userId = RNum.Next(10000, 99999) + RNum.Next(0, 9).ToString();
-            var tmpcode = await UserManager.GenerateUserTokenAsync("Login", userId);
+            var user = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
+            var userId1 = user.Identity.GetUserId();
+            var tmpcode = await UserManager.GenerateUserTokenAsync("Login", userId1);
 
-          
+            //Random RNum = new Random();
+            //string tmpcode = RNum.Next(10000, 99999) + RNum.Next(0, 9).ToString();
             string sendtmpcode = tmpcode;
             if (isVoice)
             {
@@ -482,13 +483,13 @@ namespace Ets.OAuthServer
                 //Session[CommonKey.VerificateCode] = tmpcode;
                 //Session[CommonKey.VerificateMobile] = mobile;
                 //记录已发送次数
-                //Session.Timeout = 5;
+                Session.Timeout = 5;
                 return new JsonResult
                 {
                     Data = new
                     {
                         State = false,
-                        Message = "发送验证码失败"                      
+                        Message = "发送验证码失败"
                     }
                 };
             }
@@ -498,8 +499,7 @@ namespace Ets.OAuthServer
                 Data = new
                 {
                     State = true,
-                    Message = "发送验证码成功",
-                    result=userId
+                    Message = "发送验证码成功"
                 }
             };         
         }

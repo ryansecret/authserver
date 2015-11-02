@@ -226,6 +226,7 @@ namespace Ets.OAuthServer
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
+            ViewBag.UserName=User.Identity.Name;
             return View();
         }
 
