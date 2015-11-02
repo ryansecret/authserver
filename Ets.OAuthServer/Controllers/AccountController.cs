@@ -115,54 +115,26 @@ namespace Ets.OAuthServer
             var user = await UserManager.FindByNameAsync(model.PhoneNumber);
             if (user == null) //验证码注册
             {
-                var applicationUser = new ApplicationUser { UserName = model.PhoneNumber };
+                var applicationUser = new ApplicationUser {UserName = model.PhoneNumber};
                 var result = await UserManager.CreateAsync(applicationUser, model.Password);
                 if (result.Succeeded)
-                {                
+                {
                     return View("DisplayEmail");
                 }
 
                 return View("Error");
             }
 
-
-            //var user = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
-            //var userId1 = user.Identity.GetUserId();
-            //var code = await UserManager.GenerateUserTokenAsync("ryan", userId1);
-
-
-
-            //var verifyResult = await UserManager.VerifyUserTokenAsync(userId1, "Login", model.Password);
-            //if (verifyResult)
-            //{
-            //    return Content("haha");
-            //}
-
-
-            //var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-            //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-            //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
-            //ViewBag.Link = callbackUrl;
-            //return View("ForgotPasswordConfirmation");
-
-
-            //// This doen't count login failures towards lockout only two factor authentication
-            //// To enable password failures to trigger lockout, change to shouldLockout: true
-            var result1 = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result1)
+            var userId = Session[ControllersCommon.ConstSessionUserIdForCode] == null
+                             ? string.Empty
+                             : Session[ControllersCommon.ConstSessionUserIdForCode].ToString();
+            var verifyResult = await UserManager.UserTokenProvider.ValidateAsync("Login", model.Password, UserManager, user);         
+            if (verifyResult)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                Session[ControllersCommon.ConstSessionUserIdForCode] =null;                
             }
-        }
+            return View("~/Home/Index.cshtml");
+    }
 
         //
         // GET: /Account/VerifyCode
@@ -437,10 +409,10 @@ namespace Ets.OAuthServer
                     }
                 };
             }
-
-            var user = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ApplicationCookie);
-            var userId1 = user.Identity.GetUserId();
-            var tmpcode = await UserManager.GenerateUserTokenAsync("Login", userId1);
+           
+            var user = new ApplicationUser();
+            Session[ControllersCommon.ConstSessionUserIdForCode] = user.Id;
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);          
 
             //Random RNum = new Random();
             //string tmpcode = RNum.Next(10000, 99999) + RNum.Next(0, 9).ToString();
@@ -499,7 +471,7 @@ namespace Ets.OAuthServer
                 Data = new
                 {
                     State = true,
-                    Message = "发送验证码成功"
+                    Message = "发送验证码成功",                  
                 }
             };         
         }
