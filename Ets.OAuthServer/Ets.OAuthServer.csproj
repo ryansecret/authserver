@@ -272,6 +272,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utility\LogExtenstion.cs" />
     <Compile Include="Utility\OAuthContants.cs" />
+    <Compile Include="Utility\ControllersCommon.cs" />
     <Compile Include="Utility\SmsHelper.cs" />
     <Compile Include="Utility\WebErrorHandlerAttribute.cs" />
   </ItemGroup>
