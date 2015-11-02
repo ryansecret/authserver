@@ -113,21 +113,9 @@ namespace Ets.OAuthServer
             }
 
             var user = await UserManager.FindByNameAsync(model.PhoneNumber);
-            if (user == null) //验证码注册
-            {
-                var applicationUser = new ApplicationUser {UserName = model.PhoneNumber};
-                var result = await UserManager.CreateAsync(applicationUser, model.Password);
-                if (result.Succeeded)
-                {
-                    return View("DisplayEmail");
-                }
-
-                return View("Error");
-            }
-
-            var userId = Session[ControllersCommon.ConstSessionUserIdForCode] == null
-                             ? string.Empty
-                             : Session[ControllersCommon.ConstSessionUserIdForCode].ToString();
+            //var userId = Session[ControllersCommon.ConstSessionUserIdForCode] == null
+            //                 ? string.Empty
+            //                 : Session[ControllersCommon.ConstSessionUserIdForCode].ToString();
             var verifyResult = await UserManager.UserTokenProvider.ValidateAsync("Login", model.Password, UserManager, user);         
             if (verifyResult)
             {
@@ -409,11 +397,20 @@ namespace Ets.OAuthServer
                     }
                 };
             }
-           
-            var user = new ApplicationUser();
-            Session[ControllersCommon.ConstSessionUserIdForCode] = user.Id;
-            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);          
 
+            var user = await UserManager.FindByNameAsync(phoneNumber);
+            if (user == null) //验证码注册
+            {
+                var applicationUser = new ApplicationUser { PhoneNumber = phoneNumber, UserName = phoneNumber };
+                var result = await UserManager.CreateAsync(applicationUser);
+                if (result.Succeeded)
+                {
+                    user = applicationUser;
+                }               
+            }
+        
+            //Session[ControllersCommon.ConstSessionUserIdForCode] = user.Id;
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);          
             string sendtmpcode = tmpcode;
             if (isVoice)
             {
@@ -449,11 +446,7 @@ namespace Ets.OAuthServer
             }
 
             if (mess != "发送成功")
-            {
-                //Session[CommonKey.VerificateCode] = tmpcode;
-                //Session[CommonKey.VerificateMobile] = mobile;
-                //记录已发送次数
-                //Session.Timeout = 5;
+            {              
                 return new JsonResult
                 {
                     Data = new
