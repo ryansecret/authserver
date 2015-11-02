@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Ets.OAuthServer;
 using Ets.OAuthServer.Utility;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Ets.Common.Utility;
 namespace Ets.OAuthServer
 {
     [Authorize]
@@ -368,6 +370,48 @@ namespace Ets.OAuthServer
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl });
         }
+
+        /// <summary>
+        /// 发送验证码
+        /// </summary>
+        /// <param name="phoneNumber">手机号</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendVerificateCode2(string phoneNumber)
+        {
+            if (phoneNumber.IsNullOrWhiteSpace()||!CommonUtility.IsMobilephone(phoneNumber))
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        State = false,
+                        Message = "手机号码错误"
+                    }
+                };
+            }
+            string tempCode = string.Empty;
+            var user = new ApplicationUser();
+            Session[ControllersCommon.ConstSessionUserIdForCode] = user.Id;
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);         
+            
+            var content = "您的验证码：" + tempCode + "，请在5分钟内填写。此验证码只用于修改密码，如非本人操作，请不要理会。";
+
+            SmsHelper etaoshiSMS = new SmsHelper();
+            string mess = string.Empty;
+            etaoshiSMS.SendSmsSaveLog(phoneNumber, content, "EtaUpdate", 0);
+            return new JsonResult
+            {
+                Data = new
+                {
+                    State = true,
+                    Message = "发送验证码成功",
+                }
+            };         
+        }
+
 
         /// <summary>
         /// Sends the code.
