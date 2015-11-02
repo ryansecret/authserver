@@ -278,6 +278,9 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Views\Application\Index.cshtml" />
+    <Content Include="Views\Account\CodeLogin.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
