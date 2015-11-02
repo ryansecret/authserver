@@ -116,7 +116,12 @@ namespace Ets.OAuthServer
             var verifyResult = await UserManager.UserTokenProvider.ValidateAsync("Login", model.Password, UserManager, user);         
             if (verifyResult)//登录成功
             {
-                return View("Login"); 
+                user.PhoneNumberConfirmed = true;
+                var result= await UserManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return View("Error");
+                }
             }
             return View("Login");
     }
@@ -442,11 +447,7 @@ namespace Ets.OAuthServer
             }
 
             if (mess != "发送成功")
-            {
-                //Session[CommonKey.VerificateCode] = tmpcode;
-                //Session[CommonKey.VerificateMobile] = mobile;
-                //记录已发送次数
-                Session.Timeout = 5;
+            {              
                 return new JsonResult
                 {
                     Data = new
