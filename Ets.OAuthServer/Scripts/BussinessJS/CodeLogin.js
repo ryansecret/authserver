@@ -11,7 +11,7 @@
     });
 
     function sendAuthCode(telephone) {
-        $.ajax({
+        $.ajaxAntiForgery({
             url: '/Account/SendVerificateCode',
             global: false,
             type: 'POST',

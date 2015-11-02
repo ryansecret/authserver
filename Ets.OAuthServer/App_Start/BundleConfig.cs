@@ -26,8 +26,8 @@ namespace Ets.OAuthServer
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
          //---------------------------------------业务js start----------------------------------//
-            bundles.Add(new ScriptBundle("~/bundles/BussinessJS/CodeLogin").Include(                        
-                        //"~/Scripts/jquery-2.1.4.min.js",
+            bundles.Add(new ScriptBundle("~/bundles/BussinessJS/CodeLogin").Include(
+                         "~/Scripts/jquery.ajaxAntiForgery.js",
                         "~/Scripts/BussinessJS/CodeLogin.js"
                         ));
 

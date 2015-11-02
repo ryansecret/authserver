@@ -186,6 +186,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\application.js" />
     <Content Include="Scripts\BussinessJS\CodeLogin.js" />
+    <Content Include="Scripts\jquery.ajaxAntiForgery.js" />
     <Content Include="说明.txt" />
     <Content Include="Log4Net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
