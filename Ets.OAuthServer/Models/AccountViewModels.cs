@@ -45,19 +45,19 @@ namespace Ets.OAuthServer
 
     public class LoginViewModel
     {      
-        [Display(Name = "Code")]          
+        [Display(Name = "验证码")]          
         public string Code { get; set; }
 
         [Required]
-        [Display(Name = "PhoneNumber")]
+        [Display(Name = "手机号")]
         [Phone]
         public string PhoneNumber { get; set; }
        
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "记住我?")]
         public bool RememberMe { get; set; }
     }
 
