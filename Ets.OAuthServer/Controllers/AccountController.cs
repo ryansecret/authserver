@@ -189,7 +189,9 @@ namespace Ets.OAuthServer
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return View("DisplayEmail");
+                    //return RedirectToAction("Index", "Manage");
+                    return RedirectToAction("Index", "Home");
+                    //return View("DisplayEmail");
                 }
                 AddErrors(result);
             }
@@ -219,6 +221,13 @@ namespace Ets.OAuthServer
             return View();
         }
 
+                [AllowAnonymous]
+        public ActionResult CodeForgotPassword()
+        {
+            return View();
+        }
+
+
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
@@ -243,6 +252,42 @@ namespace Ets.OAuthServer
             }
 
             // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        //
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CodeForgotPassword(CodeForgotPasswordViewModel model) 
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByNameAsync(model.PhoneNumber);
+                if (user==null)
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                //验证码验证
+                var code = await UserManager.UserTokenProvider.GenerateAsync("EtsForgot", UserManager, user);
+                if (!code.Equals(model.Code))
+                {
+                    return View(model);
+                }
+
+                //获取密码hash值
+                PasswordHasher passwordHasher = new PasswordHasher();
+                var passWord = passwordHasher.HashPassword(model.NewPassWord);
+                user.PasswordHash = passWord;
+
+                var result = UserManager.UpdateAsync(user);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+            }
             return View(model);
         }
 
@@ -387,12 +432,12 @@ namespace Ets.OAuthServer
                 }
             }
 
-            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("EtsChange", UserManager, user);
             var content = "您的验证码：" + tmpcode + "，请在5分钟内填写。此验证码只用于修改密码，如非本人操作，请不要理会。";
 
             SmsHelper etaoshiSMS = new SmsHelper();
             string mess = string.Empty;
-            etaoshiSMS.SendSmsSaveLog(phoneNumber, content, "EtaUpdate", 0);
+            etaoshiSMS.SendSmsSaveLog(phoneNumber, content, "EtsChange", 0);
             return new JsonResult
             {
                 Data = new
@@ -401,6 +446,52 @@ namespace Ets.OAuthServer
                     Message = "发送验证码成功",
                 }
             };         
+        }
+
+        //发送忘记密码验证码
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendForgotVerificateCode(string phoneNumber)
+        {
+            if (phoneNumber.IsNullOrWhiteSpace() || !CommonUtility.IsMobilephone(phoneNumber))
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        State = false,
+                        Message = "手机号码错误"
+                    }
+                };
+            }
+
+
+            var user = await UserManager.FindByNameAsync(phoneNumber);
+            if (user == null) //验证码注册
+            {
+                var applicationUser = new ApplicationUser { PhoneNumber = phoneNumber, UserName = phoneNumber };
+                var result = await UserManager.CreateAsync(applicationUser);
+                if (result.Succeeded)
+                {
+                    user = applicationUser;
+                }
+            }
+
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("EtsForgot", UserManager, user);
+            var content = "您的验证码：" + tmpcode + "，请在5分钟内填写。此验证码只用于忘记密码，如非本人操作，请不要理会。";
+
+            SmsHelper etaoshiSMS = new SmsHelper();
+            string mess = string.Empty;
+            etaoshiSMS.SendSmsSaveLog(phoneNumber, content, "EtsForgot", 0);
+            return new JsonResult
+            {
+                Data = new
+                {
+                    State = true,
+                    Message = "发送验证码成功",
+                }
+            };  
         }
 
 

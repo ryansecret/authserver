@@ -1,6 +1,6 @@
 ﻿@model Ets.OAuthServer.IndexViewModel
 @{
-    ViewBag.Title = "Manage your account";
+    ViewBag.Title = "管理账户";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -10,7 +10,7 @@
         <p>
             @if (Model.HasPassword)
             {
-                @Html.ActionLink("Change your password", "ChangePassword")
+                @Html.ActionLink("修改密码", "CodeChangePassword")
             }
             else
             {
@@ -18,7 +18,7 @@
             }
         </p>
         <p>
-            Phone Number: @(Model.PhoneNumber ?? "None") [
+            手机号: @(Model.PhoneNumber ?? "None") [
             @if (Model.PhoneNumber != null)
             {
                 @Html.ActionLink("Change", "AddPhoneNumber")
@@ -32,14 +32,14 @@
             ]
         </p>
         <p>
-            External Logins: @Model.Logins.Count
+            外部登陆: @Model.Logins.Count
             @Html.ActionLink("[Manage]", "ManageLogins")
         </p>
         @if (Model.TwoFactor)
         {
             <form method="post" action="/Manage/DisableTFA">
                 <p>
-                    Two factor is currently enabled:
+                    当前状态:
                     <input type="submit" value="Disable" class="btn btn-default"/>
                 </p>
             </form>
@@ -48,7 +48,7 @@
         {
             <form method="post" action="/Manage/EnableTFA">
                 <p>
-                    Two factor is currently disabled:
+                    当前状态:
                     <input type="submit" value="Enable" class="btn btn-default"/>
                 </p>
             </form>
@@ -57,7 +57,7 @@
         {
             <form method="post" action="/Manage/ForgetBrowser">
                 <p>
-                    Browser is curently remembered for two factor:
+                    浏览器是否记录状态:
                     <input type="submit" value="Forget Browser" class="btn btn-default" />
                 </p>
             </form>
@@ -66,7 +66,7 @@
         {
             <form method="post" action="/Manage/RememberBrowser">
                 <p>
-                    Browser is curently not remembered for two factor:
+                    浏览器是否记录状态:
                     <input type="submit" value="Remember Browser" class="btn btn-default"/>
                 </p>
             </form>

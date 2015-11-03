@@ -278,9 +278,10 @@ namespace Ets.OAuthServer
             var user= await UserManager.FindByNameAsync(model.PhoneNumber);
 
             //验证码验证
-            var code = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);
+            var code = await UserManager.UserTokenProvider.GenerateAsync("EtsChange", UserManager, user);
             if (!code.Equals(model.Code))
             {
+                ModelState.AddModelError("ChangePassword", "验证码不匹配");
                 return View(model);
             }
 
@@ -288,8 +289,8 @@ namespace Ets.OAuthServer
             PasswordHasher passwordHasher=new PasswordHasher();
             var passWord= passwordHasher.HashPassword(model.NewPassword);
             user.PasswordHash = passWord;
-
             var result= UserManager.UpdateAsync(user);
+           
             return View(model);
         } 
 

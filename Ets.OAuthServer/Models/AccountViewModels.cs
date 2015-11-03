@@ -113,4 +113,20 @@ namespace Ets.OAuthServer
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class CodeForgotPasswordViewModel
+    {
+        [Required]
+        [Phone]
+        [Display(Name = "手机号")]
+        public string PhoneNumber { get; set; }
+
+        [Phone]
+        [Display(Name = "验证码")]
+        public string Code { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "新密码")]
+        public string NewPassWord { get; set; }
+    }
 }

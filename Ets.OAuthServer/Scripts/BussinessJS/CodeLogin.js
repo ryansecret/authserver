@@ -10,10 +10,19 @@
         sendAuthCode(phoneNumber);
     });
     
+    //修改密码
     $("#sendAuthCode2").on('click', function (e) {
         validatePhone();
         sendUpdateAuthCode($('#PhoneNumber').val().trim());
     });
+    
+    //忘记密码
+    $("#sendForgotAuthCode").on('click', function(e) {
+        validatePhone();
+        sendForgotAuthCode($('#PhoneNumber').val().trim());
+    });
+    
+
 
     function sendAuthCode(telephone) {
         $.ajaxAntiForgery({
@@ -50,6 +59,25 @@
     var sendUpdateAuthCode = function (telephone) {
         $.ajaxAntiForgery({
             url: '/Account/SendVerificateChangeCode',
+            global: false,
+            type: 'POST',
+            dataType: "json",
+            data: {
+                phoneNumber: telephone
+            },
+            success: function (result) {
+                if (result.State) {
+                    return;
+                }
+                alert(result.Message);
+            }
+        });
+    };
+    
+    //忘记密码
+    var sendForgotAuthCode = function (telephone) {
+        $.ajaxAntiForgery({
+            url: '/Account/SendForgotVerificateCode',
             global: false,
             type: 'POST',
             dataType: "json",
