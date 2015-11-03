@@ -43,7 +43,11 @@
                     @Html.ActionLink("注册?", "Register")
                 </p>
                 <p>
+<<<<<<< HEAD
                     @Html.ActionLink("Forget your password?", "CodeForgotPassword")
+=======
+                    @Html.ActionLink("忘记密码?", "ForgotPassword")
+>>>>>>> 5fb7e8c55731fa039f092c913fb1304ab9f407db
                 </p>
             }
         </section>

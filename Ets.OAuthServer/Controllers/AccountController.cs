@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Ets.OAuthServer;
 using Ets.OAuthServer.Utility;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -13,6 +14,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ets.OAuthServer.Bll.IBll;
 using Microsoft.AspNet.Identity;
+using Ets.Common.Utility;
 namespace Ets.OAuthServer
 {
     [Authorize]
@@ -82,10 +84,6 @@ namespace Ets.OAuthServer
             {
                 return View(model);
             }
-            //model.PhoneNumber = "admin@example.com";
-            //model.Password = "Admin@123456";
-            // This doen't count login failures towards lockout only two factor authentication
-            // To enable password failures to trigger lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.PhoneNumber, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -114,28 +112,18 @@ namespace Ets.OAuthServer
                 return View(model);
             }
 
-            var user = await UserManager.FindByNameAsync(model.PhoneNumber);
-            if (user == null) //验证码注册
+            var user = await UserManager.FindByNameAsync(model.PhoneNumber);          
+            var verifyResult = await UserManager.UserTokenProvider.ValidateAsync("Login", model.Code, UserManager, user);         
+            if (verifyResult)//登录成功
             {
-                var applicationUser = new ApplicationUser {UserName = model.PhoneNumber};
-                var result = await UserManager.CreateAsync(applicationUser, model.Password);
-                if (result.Succeeded)
+                user.PhoneNumberConfirmed = true;
+                var result= await UserManager.UpdateAsync(user);
+                if (!result.Succeeded)
                 {
-                    return View("DisplayEmail");
+                    return View("Error");
                 }
-
-                return View("Error");
             }
-
-            var userId = Session[ControllersCommon.ConstSessionUserIdForCode] == null
-                             ? string.Empty
-                             : Session[ControllersCommon.ConstSessionUserIdForCode].ToString();
-            var verifyResult = await UserManager.UserTokenProvider.ValidateAsync("Login", model.Password, UserManager, user);         
-            if (verifyResult)
-            {
-                Session[ControllersCommon.ConstSessionUserIdForCode] =null;                
-            }
-            return View("~/Home/Index.cshtml");
+            return View("Login");
     }
 
         //
@@ -199,16 +187,13 @@ namespace Ets.OAuthServer
         {
             if (ModelState.IsValid)
             {
-                //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var user = new ApplicationUser { UserName = model.PhoneNumber };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    //ViewBag.Link = callbackUrl;
-                    return View("DisplayEmail");
+                    //return RedirectToAction("Index", "Manage");
+                    return RedirectToAction("Index", "Home");
+                    //return View("DisplayEmail");
                 }
                 AddErrors(result);
             }
@@ -238,6 +223,13 @@ namespace Ets.OAuthServer
             return View();
         }
 
+                [AllowAnonymous]
+        public ActionResult CodeForgotPassword()
+        {
+            return View();
+        }
+
+
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
@@ -262,6 +254,42 @@ namespace Ets.OAuthServer
             }
 
             // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        //
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CodeForgotPassword(CodeForgotPasswordViewModel model) 
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByNameAsync(model.PhoneNumber);
+                if (user==null)
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                //验证码验证
+                var code = await UserManager.UserTokenProvider.GenerateAsync("EtsForgot", UserManager, user);
+                if (!code.Equals(model.Code))
+                {
+                    return View(model);
+                }
+
+                //获取密码hash值
+                PasswordHasher passwordHasher = new PasswordHasher();
+                var passWord = passwordHasher.HashPassword(model.NewPassWord);
+                user.PasswordHash = passWord;
+
+                var result = UserManager.UpdateAsync(user);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                {
+                    return View("ForgotPasswordConfirmation");
+                }
+            }
             return View(model);
         }
 
@@ -372,6 +400,104 @@ namespace Ets.OAuthServer
         }
 
         /// <summary>
+        /// 发送验证码
+        /// </summary>
+        /// <param name="phoneNumber">手机号</param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendVerificateChangeCode(string phoneNumber)
+        {
+            phoneNumber = "13148372114";
+            if (phoneNumber.IsNullOrWhiteSpace()||!CommonUtility.IsMobilephone(phoneNumber))
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        State = false,
+                        Message = "手机号码错误"
+                    }
+                };
+            }
+          
+
+            var user = await UserManager.FindByNameAsync(phoneNumber);
+            if (user == null) //验证码注册
+            {
+                var applicationUser = new ApplicationUser { PhoneNumber = phoneNumber, UserName = phoneNumber };
+                var result = await UserManager.CreateAsync(applicationUser);
+                if (result.Succeeded)
+                {
+                    user = applicationUser;
+                }
+            }
+
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("EtsChange", UserManager, user);
+            var content = "您的验证码：" + tmpcode + "，请在5分钟内填写。此验证码只用于修改密码，如非本人操作，请不要理会。";
+
+            SmsHelper etaoshiSMS = new SmsHelper();
+            string mess = string.Empty;
+            etaoshiSMS.SendSmsSaveLog(phoneNumber, content, "EtsChange", 0);
+            return new JsonResult
+            {
+                Data = new
+                {
+                    State = true,
+                    Message = "发送验证码成功",
+                }
+            };         
+        }
+
+        //发送忘记密码验证码
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendForgotVerificateCode(string phoneNumber)
+        {
+            if (phoneNumber.IsNullOrWhiteSpace() || !CommonUtility.IsMobilephone(phoneNumber))
+            {
+                return new JsonResult
+                {
+                    Data = new
+                    {
+                        State = false,
+                        Message = "手机号码错误"
+                    }
+                };
+            }
+
+
+            var user = await UserManager.FindByNameAsync(phoneNumber);
+            if (user == null) //验证码注册
+            {
+                var applicationUser = new ApplicationUser { PhoneNumber = phoneNumber, UserName = phoneNumber };
+                var result = await UserManager.CreateAsync(applicationUser);
+                if (result.Succeeded)
+                {
+                    user = applicationUser;
+                }
+            }
+
+            var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("EtsForgot", UserManager, user);
+            var content = "您的验证码：" + tmpcode + "，请在5分钟内填写。此验证码只用于忘记密码，如非本人操作，请不要理会。";
+
+            SmsHelper etaoshiSMS = new SmsHelper();
+            string mess = string.Empty;
+            etaoshiSMS.SendSmsSaveLog(phoneNumber, content, "EtsForgot", 0);
+            return new JsonResult
+            {
+                Data = new
+                {
+                    State = true,
+                    Message = "发送验证码成功",
+                }
+            };  
+        }
+
+
+        /// <summary>
         /// Sends the code.
         /// </summary>      
         /// <param name="PhoneNumber">The phone number.</param>
@@ -411,13 +537,19 @@ namespace Ets.OAuthServer
                     }
                 };
             }
-           
-            var user = new ApplicationUser();
-            Session[ControllersCommon.ConstSessionUserIdForCode] = user.Id;
+
+            var user = await UserManager.FindByNameAsync(phoneNumber);
+            if (user == null) //验证码注册
+            {
+                var applicationUser = new ApplicationUser { PhoneNumber = phoneNumber, UserName = phoneNumber };
+                var result = await UserManager.CreateAsync(applicationUser);
+                if (result.Succeeded)
+                {
+                    user = applicationUser;
+                }               
+            }
+               
             var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);          
-            
-            //Random RNum = new Random();
-            //string tmpcode = RNum.Next(10000, 99999) + RNum.Next(0, 9).ToString();
             string sendtmpcode = tmpcode;
             if (isVoice)
             {
@@ -453,11 +585,7 @@ namespace Ets.OAuthServer
             }
 
             if (mess != "发送成功")
-            {
-                //Session[CommonKey.VerificateCode] = tmpcode;
-                //Session[CommonKey.VerificateMobile] = mobile;
-                //记录已发送次数
-                Session.Timeout = 5;
+            {              
                 return new JsonResult
                 {
                     Data = new

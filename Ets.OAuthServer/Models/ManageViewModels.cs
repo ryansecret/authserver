@@ -59,6 +59,31 @@ namespace Ets.OAuthServer
     }
 
 
+    public class CodeChangePasswordViewModel
+    {
+
+        //[Required]
+        [Display(Name = "手机号")]
+        [Phone]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "新密码")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "确认密码")]
+        [Compare("NewPassword", ErrorMessage = "两次密码不匹配")]
+        public string ConfirmPassword { get; set; }
+
+        [Display(Name = "验证码")]
+        [DataType(DataType.Text)]
+        [Compare("Code", ErrorMessage = "验证码不匹配")]
+        public string  Code { get; set; }
+    }
+
     public class AddPhoneNumberViewModel
     {
         [Required]

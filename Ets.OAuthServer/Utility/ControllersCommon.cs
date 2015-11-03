@@ -15,6 +15,6 @@ namespace Ets.OAuthServer.Utility
         /// 修改者：
         /// 修改时间：
         /// ----------------------------------------------------------------------------------------
-        public const string ConstSessionUserIdForCode = "UserIdForCode";
+        //public const string ConstSessionUserIdForCode = "UserIdForCode";
     }
 }

@@ -44,23 +44,20 @@ namespace Ets.OAuthServer
     }
 
     public class LoginViewModel
-    {
-        //[Required]
-        //[Display(Name = "Email")]
-        //[EmailAddress]
-        //public string Email { get; set; }
+    {      
+        [Display(Name = "验证码")]          
+        public string Code { get; set; }
 
         [Required]
-        [Display(Name = "PhoneNumber")]
+        [Display(Name = "手机号")]
         [Phone]
         public string PhoneNumber { get; set; }
-
-        [Required]
+       
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "记住我?")]
         public bool RememberMe { get; set; }
     }
 
@@ -115,5 +112,21 @@ namespace Ets.OAuthServer
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class CodeForgotPasswordViewModel
+    {
+        [Required]
+        [Phone]
+        [Display(Name = "手机号")]
+        public string PhoneNumber { get; set; }
+
+        [Phone]
+        [Display(Name = "验证码")]
+        public string Code { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "新密码")]
+        public string NewPassWord { get; set; }
     }
 }
