@@ -10,6 +10,7 @@ using Ets.OAuthServer.Core.Infrastructure;
 using Ets.OAuthServer.Core.Infrastructure.DependencyManagement;
 using Ets.OAuthServer.Dal.Dal;
 using Ets.OAuthServer.Dal.IDal;
+using LibLog.Example.Library.Logging;
 
 namespace Ets.OAuthServer.App_Start
 {
@@ -18,6 +19,8 @@ namespace Ets.OAuthServer.App_Start
         public int Order { get; private set; }
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
+            builder.RegisterInstance(LogProvider.GetLogger("Logger_Error")).Named<ILog>("Error").SingleInstance();
+            builder.RegisterInstance(LogProvider.GetLogger("Logger_Info")).Named<ILog>("Info").SingleInstance();
             builder.RegisterControllers(typeFinder.GetAssemblies().ToArray()).PropertiesAutowired();
 
             builder.RegisterType<AuthInfoDal>().AsImplementedInterfaces();
