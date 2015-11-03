@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Ets.OAuthServer.Bll.Bll;
@@ -22,7 +23,7 @@ namespace Ets.OAuthServer.App_Start
             builder.RegisterInstance(LogProvider.GetLogger("Logger_Error")).Named<ILog>("Error").SingleInstance();
             builder.RegisterInstance(LogProvider.GetLogger("Logger_Info")).Named<ILog>("Info").SingleInstance();
             builder.RegisterControllers(typeFinder.GetAssemblies().ToArray()).PropertiesAutowired();
-
+             
             builder.RegisterType<AuthInfoDal>().AsImplementedInterfaces();
             builder.RegisterType<AuthInfoBll>().AsImplementedInterfaces().InstancePerRequest();
 

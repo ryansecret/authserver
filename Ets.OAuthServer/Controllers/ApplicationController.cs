@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Ets.OAuthServer.Controllers
 {
+    [Authorize]
     public class ApplicationController : Controller
     {
         IApplicationBill bill;

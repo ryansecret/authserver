@@ -2,6 +2,7 @@
 using Ets.OAuthServer.Bll.IBll;
 namespace Ets.OAuthServer
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IAuthInfoBll _testBll;
