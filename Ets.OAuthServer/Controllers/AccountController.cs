@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Ets.OAuthServer.Bll.IBll;
 using Microsoft.AspNet.Identity;
 namespace Ets.OAuthServer
 {
@@ -39,12 +40,13 @@ namespace Ets.OAuthServer
                 _userManager = value;
             }
         }
-
+        public IAuthInfoBll Bll { get; set; }
         //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+             
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -413,7 +415,7 @@ namespace Ets.OAuthServer
             var user = new ApplicationUser();
             Session[ControllersCommon.ConstSessionUserIdForCode] = user.Id;
             var tmpcode = await UserManager.UserTokenProvider.GenerateAsync("Login", UserManager, user);          
-
+            
             //Random RNum = new Random();
             //string tmpcode = RNum.Next(10000, 99999) + RNum.Next(0, 9).ToString();
             string sendtmpcode = tmpcode;

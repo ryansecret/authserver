@@ -18,10 +18,10 @@ namespace Ets.OAuthServer.App_Start
         public int Order { get; private set; }
         public void Register(ContainerBuilder builder, ITypeFinder typeFinder)
         {
-            builder.RegisterControllers(typeFinder.GetAssemblies().ToArray());
+            builder.RegisterControllers(typeFinder.GetAssemblies().ToArray()).PropertiesAutowired();
 
             builder.RegisterType<AuthInfoDal>().AsImplementedInterfaces();
-            builder.RegisterType<AuthInfoBll>().AsImplementedInterfaces();
+            builder.RegisterType<AuthInfoBll>().AsImplementedInterfaces().InstancePerRequest();
 
             builder.RegisterType<ApplicationDal>().AsImplementedInterfaces();
             builder.RegisterType<ApplicationBill>().AsImplementedInterfaces();
