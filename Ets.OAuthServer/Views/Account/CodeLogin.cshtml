@@ -1,4 +1,4 @@
-
+﻿
 @model Ets.OAuthServer.LoginViewModel
 
 @{
@@ -45,6 +45,9 @@
                         <input type="submit" value="登录" class="btn btn-default" />
                     </div>
                 </div>
+                <p>
+                    @Html.ActionLink("密码登录?", "Login")
+                </p>
                 <p>
                     @Html.ActionLink("注册?", "Register")
                 </p>
