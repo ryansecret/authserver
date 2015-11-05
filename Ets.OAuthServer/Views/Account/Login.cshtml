@@ -39,11 +39,14 @@
                         <input type="submit" value="登录" class="btn btn-default" />
                     </div>
                 </div>
+                 <p>
+                    @Html.ActionLink("验证码登录?", "CodeLogin")
+                </p>
                 <p>
                     @Html.ActionLink("注册?", "Register")
                 </p>
                 <p>
-                    @Html.ActionLink("Forget your password?", "CodeForgotPassword")
+                    @Html.ActionLink("忘记密码?", "CodeForgotPassword")
                 </p>
             }
         </section>

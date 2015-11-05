@@ -93,9 +93,9 @@ namespace Ets.OAuthServer
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
-                case SignInStatus.Failure:
+                case SignInStatus.Failure:                   
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "用户名或密码错误~");
                     return View(model);
             }
         }
