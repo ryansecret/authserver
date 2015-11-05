@@ -288,6 +288,7 @@
     </Content>
     <Content Include="Views\Manage\CodeChangePassword.cshtml" />
     <Content Include="Views\Account\CodeForgotPassword.cshtml" />
+    <Content Include="Views\Account\LoginSuccess.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -62,6 +62,12 @@ namespace Ets.OAuthServer
             return View();
         }
 
+        public ActionResult LoginSuccess(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
         private ApplicationSignInManager _signInManager;
 
         public ApplicationSignInManager SignInManager
@@ -127,10 +133,10 @@ namespace Ets.OAuthServer
                 ModelState.AddModelError("", "登录失败~");
                 return View(model);               
             }
-            return View("Login");
-    }
-
-        //
+            return View("LoginSuccess");
+        }
+       
+            //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl)
