@@ -114,14 +114,18 @@ namespace Ets.OAuthServer
 
             var user = await UserManager.FindByNameAsync(model.PhoneNumber);          
             var verifyResult = await UserManager.UserTokenProvider.ValidateAsync("Login", model.Code, UserManager, user);         
-            if (verifyResult)//登录成功
+            if (!verifyResult)//登录成功
             {
-                user.PhoneNumberConfirmed = true;
-                var result= await UserManager.UpdateAsync(user);
-                if (!result.Succeeded)
-                {
-                    return View("Error");
-                }
+                ModelState.AddModelError("", "用户名或密码错误~");
+                return View(model);
+            }
+
+            user.PhoneNumberConfirmed = true;
+            var result = await UserManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "登录失败~");
+                return View(model);               
             }
             return View("Login");
     }
