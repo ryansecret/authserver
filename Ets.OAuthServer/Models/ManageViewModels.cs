@@ -80,7 +80,7 @@ namespace Ets.OAuthServer
 
         [Display(Name = "验证码")]
         [DataType(DataType.Text)]
-        [Compare("Code", ErrorMessage = "验证码不匹配")]
+        [Compare("Code", ErrorMessage = "验证码错误")]
         public string  Code { get; set; }
     }
 
