@@ -28,18 +28,18 @@ namespace Ets.OAuthServer
         public string Provider { get; set; }
 
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "验证码")]
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
-        [Display(Name = "Remember this browser?")]
+        [Display(Name = "记住浏览器选项？")]
         public bool RememberBrowser { get; set; }
     }
 
     public class ForgotViewModel
     {
         
-        [Display(Name = "Email")]
+        [Display(Name = "邮箱")]
         public string Email { get; set; }
     }
 
@@ -93,14 +93,14 @@ namespace Ets.OAuthServer
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0} 长度至少 {2} 个字符", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "密码")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "确认密码")]
+        [Compare("Password", ErrorMessage = "两次密码输入不一致")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

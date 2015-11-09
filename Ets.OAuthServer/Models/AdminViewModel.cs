@@ -8,7 +8,7 @@ namespace Ets.OAuthServer
     {
         public string Id { get; set; }
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "RoleName")]
+        [Display(Name = "角色")]
         public string Name { get; set; }
     }
 
@@ -17,7 +17,7 @@ namespace Ets.OAuthServer
         public string Id { get; set; }
 
         [Required(AllowEmptyStrings = false)]
-        [Display(Name = "Email")]
+        [Display(Name = "邮箱")]
         [EmailAddress]
         public string Email { get; set; }
 
