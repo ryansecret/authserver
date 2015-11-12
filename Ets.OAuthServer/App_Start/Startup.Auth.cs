@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using System.Web;
 using Ets.OAuthServer.Bll.IBll;
 using Ets.OAuthServer.Core.Infrastructure;
 using Microsoft.AspNet.Identity;
@@ -97,10 +98,7 @@ namespace Ets.OAuthServer
             var auth = EngineContext.Current.ContainerManager.Resolve<IAuthInfoBll>();
             var redirectUrl = await auth.GetReturnUrl(context.ClientId);
             context.Validated(redirectUrl);
-            //if (context.ClientId == OAuthContants.Clients.Client1.Id)
-            //{
-            //    context.Validated(OAuthContants.Clients.Client1.RedirectUrl);
-            //}
+            
             
         }
 
@@ -122,13 +120,18 @@ namespace Ets.OAuthServer
             
         }
 
-        private Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        private async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var identity = new ClaimsIdentity(new GenericIdentity(context.UserName, OAuthDefaults.AuthenticationType), context.Scope.Select(x => new Claim("urn:oauth:scope", x)));
+            var match=await HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>().FindAsync(context.UserName,context.Password);
+            if (match != null)
+            {
+                var identity =
+                    new ClaimsIdentity(new GenericIdentity(context.UserName, OAuthDefaults.AuthenticationType),
+                        context.Scope.Select(x => new Claim("urn:oauth:scope", x)));
 
-            context.Validated(identity);
+                context.Validated(identity);
 
-            return Task.FromResult(0);
+            }
         }
 
         private Task GrantClientCredetails(OAuthGrantClientCredentialsContext context)

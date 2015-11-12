@@ -117,7 +117,7 @@ namespace Ets.OAuthServer
             {
                 return View(model);
             }
-
+            
             var user = await UserManager.FindByNameAsync(model.PhoneNumber);          
             var verifyResult = await UserManager.UserTokenProvider.ValidateAsync("Login", model.Code, UserManager, user);         
             if (!verifyResult)//登录成功

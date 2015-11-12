@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// ryan
+// 201511123:16 PM
+
+#region
+
+using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using Ets.OAuthServer.Core.Infrastructure;
 using log4net.Config;
+
+#endregion
 
 namespace Ets.OAuthServer
 {
@@ -20,8 +24,8 @@ namespace Ets.OAuthServer
             DependencyResolver.SetResolver(dependencyResolver);
             EngineContext.Initialize(false);
 
-            string path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "log4Net.config");
-            XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(path));
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4Net.config");
+            XmlConfigurator.ConfigureAndWatch(new FileInfo(path));
         }
     }
 }
