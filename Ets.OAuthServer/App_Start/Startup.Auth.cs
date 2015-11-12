@@ -57,6 +57,15 @@ namespace Ets.OAuthServer
     {
         public void ConfigureAuthServer(IAppBuilder app)
         {
+            //app.Map(OAuthContants.Paths.AuthorizePath, map =>
+            //{
+            //    map.Run((contex) =>
+            //    {
+
+            //        return contex.Response.WriteAsync("sdfsdf");
+
+            //    });
+            //});
             // Setup Authorization Server
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
@@ -123,15 +132,16 @@ namespace Ets.OAuthServer
         private async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var match=await HttpContext.Current.GetOwinContext().Get<ApplicationUserManager>().FindAsync(context.UserName,context.Password);
-            if (match != null)
+            if (match == null)
             {
-                var identity =
-                    new ClaimsIdentity(new GenericIdentity(context.UserName, OAuthDefaults.AuthenticationType),
-                        context.Scope.Select(x => new Claim("urn:oauth:scope", x)));
-
-                context.Validated(identity);
-
+               
+                context.SetError("验证失败！");
             }
+            var identity =
+                   new ClaimsIdentity(new GenericIdentity(context.UserName, OAuthDefaults.AuthenticationType),
+                       context.Scope.Select(x => new Claim("urn:oauth:scope", x)));
+
+            context.Validated(identity);
         }
 
         private Task GrantClientCredetails(OAuthGrantClientCredentialsContext context)
