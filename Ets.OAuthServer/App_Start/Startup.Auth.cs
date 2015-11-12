@@ -136,6 +136,8 @@ namespace Ets.OAuthServer
             {
                
                 context.SetError("验证失败！");
+                return;
+
             }
             var identity =
                    new ClaimsIdentity(new GenericIdentity(context.UserName, OAuthDefaults.AuthenticationType),
