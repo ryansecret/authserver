@@ -26,10 +26,10 @@ namespace Ets.OAuthServer.App_Start
             builder.RegisterInstance(LogProvider.GetLogger("Logger_Info")).Named<ILog>("Info").SingleInstance();
             builder.RegisterControllers(typeFinder.GetAssemblies().ToArray()).PropertiesAutowired();
 
-            builder.RegisterType<AuthInfoDal>().AsImplementedInterfaces();
-            builder.RegisterType<AuthInfoBll>().AsImplementedInterfaces().InstancePerRequest();
+            builder.RegisterType<AuthInfoDal>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<AuthInfoBll>().AsImplementedInterfaces().SingleInstance();
 
-            builder.RegisterType<ApplicationDal>().AsImplementedInterfaces();
+            builder.RegisterType<ApplicationDal>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<ApplicationBill>().AsImplementedInterfaces();
         }
     }

@@ -255,6 +255,7 @@ namespace Dapper.Extensions
             try
             {
                 EnsureConnectionOpen();
+                
                 return _connection.Find<T>(predicate, _transaction);
             }
             finally

@@ -1,4 +1,5 @@
-﻿using Owin;
+﻿using LibLog.Example.Library.Logging;
+using Owin;
 
 namespace Ets.OAuthServer
 {

@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LibLog.Example.Library.Logging.LogExtensions" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQCABBAAAAAAA7CAAAAQAEgAUCQgAFUAAAAAGEAEAQA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProvider" Collapsed="true">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAFAAgQBBAAAAAAAkAEIAIAgIAAEAQAAAAAAAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LoggerExecutionWrapper" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAEAAAAAIAgAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.LogProviderBase" Collapsed="true">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAACAAgCAAAAAAAgIAAAAAAEAAAQAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.NLogLogProvider" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAACAAAAAAAAAACAAAAAAAggAAAAAAEAAAAABAE=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.Log4NetLogProvider" Collapsed="true">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAACAAAAAAAAAACAAAAAAAggAAAAAAEAAAAABAE=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.EntLibLogProvider" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAgAAAiAAAAAAAAAAEAAAAAEAggAAAEAAAIAAAIBAI=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.SerilogLogProvider" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAACEAAAAAAAAACAAAAAAAhgAAAAAAEAAAAABAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.LoupeLogProvider" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAACAEAAAAAAAAAAAAAAAAggAAAAACAAAAAABAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.TraceEventTypeValues" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIEAAAAIAAAQAAAAAAABAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.LogMessageFormatter" Collapsed="true">
+    <Position X="9.25" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAQQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.TypeExtensions" Collapsed="true">
+    <Position X="12" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAACAABAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LibLog.Example.Library.Logging.LogProviders.DisposableAction" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="LibLog.Example.Library.Logging.ILog" Collapsed="true">
+    <Position X="12" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LibLog.Example.Library.Logging.ILogProvider" Collapsed="true">
+    <Position X="13.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAgIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="LibLog.Example.Library.Logging.LogLevel" Collapsed="true">
+    <Position X="12.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAYAAAAAAAAAAAAAAABEAAAAAAEAEAAA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="LibLog.Example.Library.Logging.Logger" Collapsed="true">
+    <Position X="12" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAIAAAAAACAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Log\LibLog.4.2\LibLog.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

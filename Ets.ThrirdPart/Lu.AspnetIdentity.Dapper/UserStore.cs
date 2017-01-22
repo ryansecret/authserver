@@ -474,6 +474,8 @@ namespace AspnetIdentity.Dapper
         }
         private IEnumerable<TUser> GetAllUsers()
         {
+            Predicate<TUser> d = t => t.UserName != "";
+           
             var users = DbContent.UserRepository.Find(c => c.UserName != " ");
             return users;
         }
